@@ -2,18 +2,13 @@ const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 const transporter = nodemailer.createTransport({
-  host: "smtp-relay.sendinblue.com",
-  port: 587,
+  service: "gmail",
   auth: {
-    user: "98a190001@smtp-brevo.com", // the email verified in Brevo
-    pass: process.env.BREVO_API_KEY, // store your API key in env variables
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
-transporter.verify((err, success) => {
-  if (err) console.log("SMTP Error:", err);
-  else console.log("Brevo ready to send emails!");
-});
 
 const ConformOrder = async (name,email,order,orderprice,orderdetails) => {
   await transporter.sendMail({
